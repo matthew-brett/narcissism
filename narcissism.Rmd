@@ -45,7 +45,7 @@ We first use the code from the textbook to calculate correlations - see <https:/
 ```{python}
 def standard_units(x):
     "Convert any array of numbers to standard units."
-    return (x - np.mean(x))/np.std(x)
+    return (x - np.mean(x)) / np.std(x)
 ```
 
 ```{python}
@@ -64,9 +64,9 @@ r_q1_q10 = correlation(df['Q1'], df['Q10'])
 r_q1_q10
 ```
 
-Our question is - what if we *removed* this effect (of Q1) from the values of Q10?   Would Q2 be able to predict the remaining (residual) values of Q10.  You can see this approach in <https://lisds.github.io/textbook/classification/single_multiple.html#multiple-regression-in-steps>.
+Our question is - what if we *removed* this effect (of Q1) from the values of Q10?   Would Q2 be able to predict the remaining (residual) values of Q10?  You can see this approach in <https://lisds.github.io/textbook/classification/single_multiple.html#multiple-regression-in-steps>.
 
-We first do a regression, predicting Q10 from Q1, using Statsmodels, following the recipe in the page above.  We'll use the least-squares shortcut to minimize, for simplicity (see the page above for details).
+We first do a regression, predicting Q10 from Q1, following the recipe in the page above.  We'll use the least-squares shortcut to minimize, for simplicity (see the page above for details).
 
 ```{python}
 from scipy.stats import linregress
@@ -77,7 +77,7 @@ res = linregress(df['Q1'], df['Q10'])
 res
 ```
 
-Notice this is the regression corresponding to the correlation above - you can see the previous r value in the output above.   With this regression, we have the slope and intercept to get the *predicted* values for Q10 from the values of Q1.
+Notice this is the regression corresponding to the correlation we did with our own function - you can see the previous r value in the output above.   With this regression, we have the slope and intercept to get the *predicted* values for Q10 from the values of Q1.
 
 ```{python}
 q10_predicted = res.intercept + res.slope * df['Q1']
@@ -90,7 +90,7 @@ q10_residuals = df['Q10'] - q10_predicted
 q10_residuals
 ```
 
-The residuals are the values of Q10 *after removing our estimate of the effect of Q1*.   So now we can ask our question of interest - how well does Q2 predict Q10, *after removing the effect of Q1*:
+The residuals are the values of Q10 *after removing our estimate of the effect of Q1*.   So now we can ask our question of interest - how well does Q2 predict Q10, *after removing the effect of Q1*?:
 
 ```{python}
 correlation(df['Q2'], q10_residuals)
